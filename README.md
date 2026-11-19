@@ -4,6 +4,19 @@ A local-first cybersecurity awareness platform built as a hackathon-ready MVP. C
 
 > **Educational prototype.** CyberShield is not antivirus, threat intelligence, or a security audit. Heuristic results can be wrong in both directions. Never treat a score as proof that a site or message is safe or malicious.
 
+## Live demo
+
+- **Website:** [https://cybershield-puce-one.vercel.app](https://cybershield-puce-one.vercel.app)
+- **GitHub:** [https://github.com/dakshsingh0305-hue/cybershield](https://github.com/dakshsingh0305-hue/cybershield)
+
+## The problem
+
+Most people are asked to judge links and messages in seconds, often on a phone, with no safe way to practise. Traditional security advice is abstract, and many “check this link” tools send the submitted URL to a remote service — which is exactly the wrong habit to teach someone handling a private or sensitive link.
+
+## The solution
+
+CyberShield is a local-first awareness workspace. It gives people a private URL inspector that runs entirely in the browser, six fictional phishing simulations with signal-by-signal feedback, and five short lessons with quizzes. Progress is stored on the device, so the whole experience works without an account, a backend, or transmitting user input.
+
 ## What’s inside
 
 - **Landing page** — product story, feature overview, clearly labelled demo metrics, FAQ, and entry points into the workspace.
@@ -35,6 +48,23 @@ The score is an educational progress metric, not a device audit:
 
 A lesson is marked complete at **60% or higher** on its quiz; the best attempt is kept. Demo activity never contributes.
 
+## Architecture overview
+
+CyberShield is a Next.js 16 App Router application with no backend, database, or authentication layer.
+
+- **Pages** under `src/app` render the landing page and the four workspace areas. Lesson and phishing detail routes are statically generated from local content.
+- **Client components** under `src/components` own all interactivity: the scanner form and reports, the phishing simulator, the lesson reader and quizzes, dashboard charts, and navigation.
+- **Pure logic** lives in `src/lib`: `analyzer.ts` parses URL text with deterministic heuristics, `score.ts` computes the awareness score, and `progress-store.tsx` persists progress to `localStorage` under `cybershield.progress.v1`.
+- **No network calls** exist in application code. The deployed site is served as static/partial-prerendered output by Vercel.
+
+```text
+Browser
+  └─ Next.js App Router (static + client components)
+       ├─ analyzer.ts   → local URL heuristics (text only)
+       ├─ score.ts      → awareness score
+       └─ progress-store → localStorage (this device only)
+```
+
 ## Tech stack
 
 - [Next.js 16](https://nextjs.org/) App Router with React 19 and TypeScript
@@ -52,6 +82,10 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+### Environment variables
+
+None are required. CyberShield has no API keys, secrets, database, or third-party services, and no `.env` file is needed for local development or production builds.
 
 ### Production checks
 
@@ -97,5 +131,12 @@ src/
 
 - Heuristics inspect URL text only. They cannot verify page content, TLS certificates, ownership, malware, or real-world reputation.
 - Phishing scenarios are teaching material, not reproductions of real campaigns.
-- Browser storage is per-device and can be cleared by the user or the browser.
+- Browser storage is per-device and can be cleared by the user or the browser. There is no cross-device sync.
 - The project is intended for education and demonstration, not production security decisions.
+
+## Future scope
+
+- Optional, explicitly consented reputation checks for users who want them — kept separate from the private local scan.
+- Additional lesson tracks and localised scenario content.
+- Exportable, privacy-preserving progress summaries for classrooms and workshops.
+- Expanded accessibility testing with screen-reader users.
