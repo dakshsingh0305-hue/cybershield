@@ -17,7 +17,7 @@ Mention the disclaimer: “This is an educational prototype, not antivirus or th
 ## 3. Landing page (20 seconds)
 
 - Open the landing page and scroll through the feature sections.
-- Point out the clearly labelled sample metrics and the entry points: **Open workspace**, **Scan a URL**, **Try the phishing lab**.
+- Point out the clearly labelled sample metrics and the entry points: **Open app** / **Launch dashboard**, **Try the URL scanner**, and **Enter the lab**.
 
 ## 4. URL scanner (60 seconds)
 

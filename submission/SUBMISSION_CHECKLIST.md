@@ -12,7 +12,7 @@ Verified on 20 November 2026 against the production deployment.
 - [x] Production deployment status: **Ready**
 - [x] Production URL publicly accessible without a Vercel login (verified unauthenticated, HTTP 200)
 - [x] Existing Vercel project reused (`cybershield`); no duplicate project created
-- [x] Production preview protection was not masking the production domain — the earlier login screen came from a protected preview URL, not the production alias
+- [x] Deployment protection checked: no SSO or password protection on the production domain. Use the production alias above; per-deployment URLs may still show Vercel authentication.
 
 ## Security audit
 
